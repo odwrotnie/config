@@ -1,4 +1,4 @@
-name := "Config"
+name := "Configuration"
 
 version := "1.0"
 

@@ -1,4 +1,4 @@
-package rzepaw.config
+package rzepaw.configuration
 
 import com.typesafe.config._
 import com.typesafe.scalalogging.LazyLogging
@@ -12,7 +12,7 @@ trait Configuration
 
     val rootConfig = ConfigFactory.load
 
-    val config: Config = Option(rootConfig.getString(MODE_NAME)) match {
+    Option(rootConfig.getString(MODE_NAME)) match {
       case None =>
         logger.debug(s"Using root config")
         rootConfig
@@ -20,7 +20,5 @@ trait Configuration
         logger.debug(s"Using $mode config")
         rootConfig.getConfig(mode).withFallback(rootConfig)
     }
-
-    config
   }
 }

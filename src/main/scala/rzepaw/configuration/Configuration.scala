@@ -11,16 +11,16 @@ trait Configuration
   lazy val configuration: Config = {
 
     val MODE_NAME = "mode"
+    val REFERENCE_NAME = "reference"
 
     val rootConfig = ConfigFactory.load
 
-    Try(rootConfig.getString(MODE_NAME)).toOption match {
-      case None =>
-        logger.debug(s"Using root config")
-        rootConfig
-      case Some(mode) =>
-        logger.debug(s"Using $mode config")
-        rootConfig.getConfig(mode).withFallback(rootConfig)
-    }
+    val mode: String = rootConfig.getString(MODE_NAME)
+    logger.debug(s"Using $mode config")
+
+    val modeConfig = rootConfig.getConfig(mode)
+    val defaultConfig = rootConfig.getConfig(REFERENCE_NAME)
+
+    modeConfig.withFallback(defaultConfig)
   }
 }

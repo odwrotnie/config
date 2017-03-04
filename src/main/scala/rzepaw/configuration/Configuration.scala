@@ -3,8 +3,6 @@ package rzepaw.configuration
 import com.typesafe.config._
 import com.typesafe.scalalogging.LazyLogging
 
-import scala.util.Try
-
 trait Configuration
   extends LazyLogging {
 

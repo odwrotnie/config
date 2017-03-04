@@ -10,7 +10,7 @@ trait Configuration
 
   lazy val configuration: Config = {
 
-    val MODE_NAME = "mode"
+    val MODE_NAME = "configuration.mode"
     val REFERENCE_NAME = "reference"
 
     val rootConfig = ConfigFactory.load

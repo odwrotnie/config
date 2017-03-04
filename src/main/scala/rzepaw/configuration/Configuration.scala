@@ -19,8 +19,8 @@ trait Configuration
     logger.debug(s"Using $mode config")
 
     val modeConfig = rootConfig.getConfig(mode)
-    val defaultConfig = rootConfig.getConfig(REFERENCE_NAME)
+    val referenceConfig = rootConfig.getConfig(REFERENCE_NAME)
 
-    modeConfig.withFallback(defaultConfig)
+    modeConfig.withFallback(referenceConfig)
   }
 }

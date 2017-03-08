@@ -9,7 +9,7 @@ trait Configuration
   lazy val configuration: Config = {
 
     val MODE_NAME = "configuration.mode"
-    val REFERENCE_NAME = "reference"
+    val DEFAULT_CONF = "default"
 
     val rootConfig = ConfigFactory.load
 
@@ -17,8 +17,8 @@ trait Configuration
     logger.debug(s"Using $mode config")
 
     val modeConfig = rootConfig.getConfig(mode)
-    val referenceConfig = rootConfig.getConfig(REFERENCE_NAME)
+    val defaultConfig = rootConfig.getConfig(DEFAULT_CONF)
 
-    modeConfig.withFallback(referenceConfig)
+    modeConfig.withFallback(defaultConfig)
   }
 }

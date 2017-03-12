@@ -8,20 +8,20 @@ import scala.util.Try
 trait Configuration
   extends LazyLogging {
 
+  val CONFIGURATION_MODE_NAME = "configuration.mode"
+
+  lazy val configurationRoot: Config =
+    ConfigFactory.load
+  lazy val configurationMode: String =
+    configurationRoot.getString(CONFIGURATION_MODE_NAME)
+
   lazy val configuration: Config = {
-
-    val MODE_NAME = "configuration.mode"
-
-    val rootConfig = ConfigFactory.load
-
-    val mode: String = rootConfig.getString(MODE_NAME)
-    logger.debug(s"Using $mode config")
-
-    val modeConfig: Option[Config] = Try(rootConfig.getConfig(mode)).toOption
-
+    logger.debug(s"Using $configurationMode config")
+    val modeConfig: Option[Config] =
+      Try(configurationRoot.getConfig(configurationMode)).toOption
     modeConfig match {
-      case Some(cfg) => cfg.withFallback(rootConfig)
-      case None => rootConfig
+      case Some(cfg) => cfg.withFallback(configurationRoot)
+      case None => configurationRoot
     }
   }
 }

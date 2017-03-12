@@ -8,17 +8,22 @@ import scala.util.Try
 trait Configuration
   extends LazyLogging {
 
-  val CONFIGURATION_MODE_NAME = "configuration.mode"
+  private val CONFIGURATION_MODE_NAME = "configuration.mode"
 
-  lazy val configurationRoot: Config =
+  private lazy val configurationRoot: Config =
     ConfigFactory.load
-  lazy val configurationMode: String =
-    configurationRoot.getString(CONFIGURATION_MODE_NAME)
+
+  protected lazy val configurationMode: Option[String] =
+    Try(configurationRoot.getString(CONFIGURATION_MODE_NAME)).toOption
+
+  private lazy val modeConfig: Option[Config] = for {
+    mode <- configurationMode
+    config <- Try(configurationRoot.getConfig(mode)).toOption
+  } yield config
 
   lazy val configuration: Config = {
     logger.debug(s"Using $configurationMode config")
-    val modeConfig: Option[Config] =
-      Try(configurationRoot.getConfig(configurationMode)).toOption
+
     modeConfig match {
       case Some(cfg) => cfg.withFallback(configurationRoot)
       case None => configurationRoot

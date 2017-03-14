@@ -2,7 +2,6 @@ package rzepaw.configuration
 
 import com.typesafe.config._
 import com.typesafe.scalalogging.LazyLogging
-
 import scala.util.Try
 
 trait Configuration
@@ -22,7 +21,8 @@ trait Configuration
   } yield config
 
   lazy val configuration: Config = {
-    logger.debug(s"Using $configurationMode config")
+
+    logger.debug(s"\n\n CONFIGURATION - using [${ configurationMode.getOrElse("root") }] config\n")
 
     modeConfig match {
       case Some(cfg) => cfg.withFallback(configurationRoot)

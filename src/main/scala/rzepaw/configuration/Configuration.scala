@@ -22,7 +22,7 @@ trait Configuration
 
   lazy val configuration: Config = {
 
-    logger.debug(s"\n\n CONFIGURATION - using [${ configurationMode.getOrElse("root") }] config\n")
+    logger.debug(s"CONFIGURATION - using `${ configurationMode.getOrElse("root") }` config")
 
     modeConfig match {
       case Some(cfg) => cfg.withFallback(configurationRoot)
